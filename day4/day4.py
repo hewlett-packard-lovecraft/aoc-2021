@@ -1,10 +1,3 @@
-# 1. take input, split input by /n/n
-# 2. 1st line is special, put into aray nums
-# 3. spli rest of input into grids
-# 4. go through num, check each grid for num
-# 5. check for win condition
-# 6. repeat step 4-5
-
 def has_won(grid, called_out: list[int]):
     for row in grid:  # check rows
         if all(x in called_out for x in row):
@@ -23,6 +16,33 @@ def uncalled_numbers_sum(grid, called_out):
     
     return sum(all_nums - set(called_out))
 
+def task_1(grids, nums):
+    for i, num in enumerate(nums):
+        called_out.append(num)
+        win = False
+
+        for grid in grids:
+            if has_won(grid, called_out):
+                print('p1:', uncalled_numbers_sum(grid, called_out) * called_out[-1])
+                win = True
+                break
+        
+        if win:
+            break
+
+def task_2(grids, nums):
+    final_score = 0
+    for i, num in enumerate(nums):
+        called_out.append(num)
+        for grid in grids:
+            if has_won(grid, called_out):
+                final_score = uncalled_numbers_sum(grid, called_out) * called_out[-1]
+                grids.remove(grid)
+                break
+
+    print('p2', final_score)
+        
+
 
 if __name__ == '__main__':
     grids = []
@@ -32,7 +52,7 @@ if __name__ == '__main__':
     for board in open('day4/input_test.txt').read().split('\n\n'):
         grid = []
         if ',' in board:
-            nums = board.split(',')  # first line is special
+            nums = map(int, board.split(','))  # first line is special
         else:
             for line in board.splitlines():
                 row = list(map(int, line.split()))
@@ -42,9 +62,5 @@ if __name__ == '__main__':
     
     grids.pop(0)
     
-    for i, num in enumerate(nums):
-        called_out.append(num)
-        for grid in grids:
-            if has_won(grid, called_out):
-                print(uncalled_numbers_sum(grid, called_out))
-                break
+    task_1(grids, nums)
+    task_2(grids, nums)
