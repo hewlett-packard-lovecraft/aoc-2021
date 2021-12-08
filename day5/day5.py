@@ -1,4 +1,6 @@
 from pathlib import Path
+from collections import Counter
+
 
 # 1. split input into array of x1 y1 x2 y2
 # 2. remove diagonals
@@ -23,13 +25,23 @@ def coords_in_range(x1, y1, x2, y2):
 def count_duplicates(grid):
     seen = set()
     counter = 0
+    print(len(grid))
     for n in grid:
-        if tuple(n) in seen:
-            print('duplicate:', n)
+        if tuple(n) in seen: #print('duplicate:', tuple(n))
             counter += 1
         else:
             seen.add(tuple(n))  
 
+    return counter
+
+def count_dup(grid):
+    a = dict(Counter(map(tuple, grid)))
+
+    counter = 0
+    for v in a.values():
+        if v > 1:
+            counter += 1
+    
     return counter
 
 def task_1(data):
@@ -42,13 +54,13 @@ def task_1(data):
         if(x1 == x2 or y1 == y2):
             grid += coords_in_range(x1, y1, x2, y2)
 
-    print(count_duplicates(grid))
+    print(count_dup(grid))
             
 
 if __name__ == '__main__':
     data = []
    
-    with open(Path('day5/input_test.txt'), encoding='utf-8', mode='r') as f:
+    with open(Path('day5/input.txt'), mode='r') as f:
         for line in f:
             data.append(line.split('->'))
 
