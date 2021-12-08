@@ -11,28 +11,12 @@ from collections import Counter
 def coords_in_range(x1, y1, x2, y2):
     coords = []
 
-    #print(x1, y1, x2, y2)
-
     for x in range(min(x1, x2), max(x1, x2)+1):
         for y in range(min(y1, y2), max(y1, y2)+1):
             coords.append([x, y])
 
-    #print(coords)
-
     return(coords)
 
-
-def count_duplicates(grid):
-    seen = set()
-    counter = 0
-    print(len(grid))
-    for n in grid:
-        if tuple(n) in seen: #print('duplicate:', tuple(n))
-            counter += 1
-        else:
-            seen.add(tuple(n))  
-
-    return counter
 
 def count_dup(grid):
     a = dict(Counter(map(tuple, grid)))
@@ -43,6 +27,7 @@ def count_dup(grid):
             counter += 1
     
     return counter
+
 
 def task_1(data):
     grid = []
